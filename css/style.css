@@ -1,0 +1,80 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    margin: 0;
+    font-family: 'Ubuntu Mono', monospace;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #63898C;
+}
+
+header {
+    font-size: 5vmin;
+    color: #015366;
+    letter-spacing: 1vmin;
+    background-color: #A7D1D2;
+    border: 0.5vmin solid #033540;
+    padding: 1vmin 2vmin;
+    margin-bottom: 4vmin;
+}
+
+#board {
+    display: grid;
+    grid-template-columns: repeat(1, 32px);
+    grid-template-rows: repeat(1, 32px);
+    position: relative;
+    z-index: 0;
+}
+
+#covers {
+    display: grid;
+    grid-template-columns: repeat(1, 32px);
+    grid-template-rows: repeat(1, 32px);
+    position: relative;
+    z-index: 2;
+}
+
+#mines {
+    display: grid;
+    grid-template-columns: repeat(1, 32px);
+    grid-template-rows: repeat(1, 32px);
+    position: relative;
+    z-index: 1;
+}
+
+#board > div {
+    border: 1px solid #033540;
+    background-color: #E0F4F5;
+    position: relative;
+    height: 32px; 
+    width: 32px;  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#covers > div {
+    border: 3px outset #033540;
+    background-color: #E0F4F5;
+    position: relative;
+    height: 32px; 
+    width: 32px;  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+button {
+    margin-top: 4vh;
+    font-size: 2vmin;
+    color: #015366;
+    letter-spacing: .5vmin;
+    background-color: #A7D1D2;
+    border: 0.3vmin solid #033540;
+    padding: .5vmin 1vmin;
+}
