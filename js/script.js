@@ -48,10 +48,12 @@ function changeBoardSize(height, width) {
 };
 
 function render() {
-
+    renderBoard();
 }
 
-
+function renderBoard() {
+    
+}
 
 
 

@@ -23,6 +23,22 @@ header {
     margin-bottom: 4vmin;
 }
 
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #E0F4F5;
+    border: 5px outset #033540;
+}
+
+#smiley {
+    height: 32px;
+    width: 32px;
+    border: 2px solid #033540;
+    background-color: white;
+}
+
 #board {
     display: grid;
     grid-template-columns: repeat(1, 32px);
