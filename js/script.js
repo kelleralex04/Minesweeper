@@ -12,6 +12,7 @@ const mines = document.getElementById('mines');
 const resetBtn = document.getElementById('reset');
 
 /*----- event listeners -----*/
+covers.addEventListener('mouseup', leftClick);
 
 /*----- functions -----*/
 
@@ -47,12 +48,31 @@ function changeBoardSize(height, width) {
     covers.style.marginTop = `-${(height + 1) * 32}px`
 };
 
+function leftClick(evt) {
+    let targetId = evt.target.getAttribute('id');
+    if (targetId === 'covers') return
+    else if (targetId[0] === 'c') {
+        clearCover(targetId)
+    } else {
+        return
+    }
+};
+
+function clearCover(Id) {
+    document.querySelector(`#${Id}`).style.visibility = 'hidden';
+};
+
 function render() {
     renderBoard();
+    renderMessage();
 }
 
 function renderBoard() {
-    
+
+}
+
+function renderMessage() {
+
 }
 
 
