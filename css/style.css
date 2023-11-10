@@ -60,46 +60,25 @@ nav {
     display: grid;
     grid-template-columns: repeat(1, 32px);
     grid-template-rows: repeat(1, 32px);
-    position: relative;
-    z-index: 0;
-}
-
-#covers {
-    display: grid;
-    grid-template-columns: repeat(1, 32px);
-    grid-template-rows: repeat(1, 32px);
-    position: relative;
-    z-index: 2;
-}
-
-#mines {
-    display: grid;
-    grid-template-columns: repeat(1, 32px);
-    grid-template-rows: repeat(1, 32px);
-    position: relative;
-    z-index: 1;
 }
 
 #board > div {
-    border: 1px solid #033540;
-    background-color: #E0F4F5;
-    position: relative;
-    height: 32px; 
-    width: 32px;  
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    display: grid;
 }
 
-#covers > div {
-    border: 3px outset #033540;
+#board > img {
     background-color: #E0F4F5;
     position: relative;
     height: 32px; 
-    width: 32px;  
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    width: 32px;
+}
+
+.covers {
+    border: 3px outset #033540;
+    background-color: #E0F4F5;
+    height: 32px; 
+    width: 32px;
+    position: absolute;
 }
 
 button {

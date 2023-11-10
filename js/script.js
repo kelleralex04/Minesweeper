@@ -3,28 +3,30 @@
 /*----- state variables -----*/
 let setHeight = 9;
 let setWidth = 9;
-let boardArr
+let setMines = 10;
+let boardArr;
+let firstClick;
 
 /*----- cached elements  -----*/
 const board = document.getElementById('board');
-const covers = document.getElementById('covers');
-const mines = document.getElementById('mines');
 const resetBtn = document.getElementById('reset');
-
 /*----- event listeners -----*/
-covers.addEventListener('mouseup', leftClick);
+board.addEventListener('mouseup', leftClick);
 
 /*----- functions -----*/
 
 init();
 
 function init() {
+    firstClick = 0;
     changeBoardSize(setHeight, setWidth);
     boardArr = [];
-    for (let i = 0; i < (setHeight * setWidth); i++) {
-        boardArr.push(0);
+    for (let i = 0; i < (setHeight); i++) {
+        boardArr.push([]);
+        for (let j = 0; j < (setWidth); j++) {
+            boardArr[i].push(0);
+        }
     };
-    // placeMines(setHeight, setWidth, setMines);
     render();
 };
 
@@ -32,31 +34,25 @@ function changeBoardSize(height, width) {
     board.innerHTML = '';
     board.style.gridTemplateColumns = `repeat(${width}, 32px)`;
     board.style.gridTemplateRows = `repeat(${height}, 32px)`;
-    for (let i = 0; i < (width * height); i++)  {
-        board.appendChild(document.createElement('div'));
-        board.lastChild.setAttribute('id', 'b' + i);
+    for (let i = 0; i < (height); i++)  {
+        for (let j = 0; j < (width); j++)  {
+            board.appendChild(document.createElement('div'));
+            board.lastChild.setAttribute('id', `bx${j}y${i}`);
+            board.lastChild.appendChild(document.createElement('img'));
+            document.getElementById(`bx${j}y${i}`).lastChild.setAttribute('src', 'https://i.imgur.com/mnoKuwe.png');
+            board.lastChild.appendChild(document.createElement('div'));
+            document.getElementById(`bx${j}y${i}`).lastChild.classList.add('covers');
+            document.getElementById(`bx${j}y${i}`).lastChild.setAttribute('id', `cx${j}y${i}`);
+        }
     };
-    
-    covers.innerHTML = '';
-    covers.style.gridTemplateColumns = `repeat(${width}, 32px)`;
-    covers.style.gridTemplateRows = `repeat(${height}, 32px)`;
-    for (let i = 0; i < (width * height); i++)  {
-        covers.appendChild(document.createElement('div'));
-        covers.lastChild.setAttribute('id', 'c' + i);
-    };
-
-    covers.style.marginTop = `-${(height + 1) * 32}px`
 };
 
 function leftClick(evt) {
     let targetId = evt.target.getAttribute('id');
-    if (targetId === 'covers') return
-    else if (targetId[0] === 'c') {
+    if (targetId[0] === 'c') {
         clearCover(targetId)
-    } else {
-        return
     }
-};
+}
 
 function clearCover(Id) {
     document.querySelector(`#${Id}`).style.visibility = 'hidden';
