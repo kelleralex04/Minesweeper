@@ -38,8 +38,8 @@ function changeBoardSize(height, width) {
         for (let j = 0; j < (width); j++)  {
             board.appendChild(document.createElement('div'));
             board.lastChild.setAttribute('id', `bx${j}y${i}`);
-            board.lastChild.appendChild(document.createElement('img'));
-            document.getElementById(`bx${j}y${i}`).lastChild.setAttribute('src', 'https://i.imgur.com/mnoKuwe.png');
+            board.lastChild.appendChild(document.createElement('div'));
+            document.getElementById(`bx${j}y${i}`).lastChild.setAttribute('style', 'border: 1px solid black');
             board.lastChild.appendChild(document.createElement('div'));
             document.getElementById(`bx${j}y${i}`).lastChild.classList.add('covers');
             document.getElementById(`bx${j}y${i}`).lastChild.setAttribute('id', `cx${j}y${i}`);
