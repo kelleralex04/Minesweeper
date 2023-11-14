@@ -1,9 +1,9 @@
 /*----- constants -----*/
 
 /*----- state variables -----*/
-let setHeight = 3;
-let setWidth = 3;
-let setMines = 3;
+let setHeight = 9;
+let setWidth = 9;
+let setMines = 0;
 let boardArr;
 let firstClick;
 
@@ -53,15 +53,46 @@ function changeBoardSize(height, width) {
 
 function leftClick(evt) {
     let targetId = evt.target.getAttribute('id');
-    if (targetId[0] === 'c') {
+    if (!targetId) {
+        return
+    } else if (targetId[0] === 'c') {
         clearCover(targetId)
     } else {
         return
     }
-}
+};
 
 function clearCover(Id) {
     document.querySelector(`#${Id}`).style.visibility = 'hidden';
+    let x = parseInt(Id[2]);
+    let y = parseInt(Id[4]);
+    // console.log(boardArr)
+    if (boardArr[x][y] === 0) {
+        if (boardArr[x-1] !== undefined && boardArr[x-1][y-1] !== undefined) {
+            document.getElementById(`cx${x-1}y${y-1}`).setAttribute('style', 'visibility: hidden');
+        }
+        if (boardArr[x][y-1] !== undefined) {
+            document.getElementById(`cx${x}y${y-1}`).setAttribute('style', 'visibility: hidden');
+        }
+        if (boardArr[x+1] !== undefined && boardArr[x+1][y-1] !== undefined) {
+            document.getElementById(`cx${x+1}y${y-1}`).setAttribute('style', 'visibility: hidden');
+        }
+        if (boardArr[x-1] !== undefined && boardArr[x-1][y] !== undefined) {
+            document.getElementById(`cx${x-1}y${y}`).setAttribute('style', 'visibility: hidden');
+        }
+        if (boardArr[x+1] !== undefined && boardArr[x+1][y] !== undefined) {
+            document.getElementById(`cx${x+1}y${y}`).setAttribute('style', 'visibility: hidden');
+        }
+        if (boardArr[x-1] !== undefined && boardArr[x-1][y+1] !== undefined) {
+            document.getElementById(`cx${x-1}y${y+1}`).setAttribute('style', 'visibility: hidden');
+        }
+        if (boardArr[x][y+1] !== undefined) {
+            document.getElementById(`cx${x}y${y+1}`).setAttribute('style', 'visibility: hidden');
+        }
+        if (boardArr[x+1] !== undefined && boardArr[x+1][y+1] !== undefined) {
+            document.getElementById(`cx${x+1}y${y+1}`).setAttribute('style', 'visibility: hidden');
+        }
+    }
 };
 
 function placeMines(mines) {
@@ -81,7 +112,6 @@ function placeMines(mines) {
 
 function countAdj(x, y) {
     if (boardArr[x][y] === -1) {
-        console.log('mine')
         if (boardArr[x-1] !== undefined && boardArr[x-1][y-1] !== undefined && boardArr[x-1][y-1] !== -1) {
             boardArr[x-1][y-1]++
         }
@@ -106,7 +136,7 @@ function countAdj(x, y) {
         if (boardArr[x+1] !== undefined && boardArr[x+1][y+1] !== undefined && boardArr[x+1][y+1] !== -1) {
             boardArr[x+1][y+1]++
         }
-    }
+    } else return
 }
 
 function render() {
@@ -122,10 +152,9 @@ function renderBoard() {
     }
     for (let i = 0; i < setHeight; i++)  {
         for (let j = 0; j < setWidth; j++)  {
-            document.getElementById(`bx${j}y${i}`).firstChild.innerHTML = boardArr[i][j]
+            document.getElementById(`bx${i}y${j}`).firstChild.innerHTML = boardArr[i][j]
         }
     }
-    console.log(boardArr)
 }
 
 function renderMessage() {
