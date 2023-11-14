@@ -3,7 +3,7 @@
 /*----- state variables -----*/
 let setHeight = 9;
 let setWidth = 9;
-let setMines = 0;
+let setMines = 10;
 let boardArr;
 let firstClick;
 
@@ -152,7 +152,25 @@ function renderBoard() {
     }
     for (let i = 0; i < setHeight; i++)  {
         for (let j = 0; j < setWidth; j++)  {
-            document.getElementById(`bx${i}y${j}`).firstChild.innerHTML = boardArr[i][j]
+            let curNum = document.getElementById(`bx${i}y${j}`).firstChild;
+            curNum.innerHTML = boardArr[i][j];
+            if (curNum.textContent === '1') {
+                curNum.setAttribute('style', 'border: 1px solid black; font-size: 20px; text-align: center; padding-top: 3px; user-select: none; color: rgb(1, 0, 250)');
+            } else if (curNum.textContent === '2') {
+                curNum.setAttribute('style', 'border: 1px solid black; font-size: 20px; text-align: center; padding-top: 3px; user-select: none; color: rgb(1, 127, 1)');
+            } else if (curNum.textContent === '3') {
+                curNum.setAttribute('style', 'border: 1px solid black; font-size: 20px; text-align: center; padding-top: 3px; user-select: none; color: rgb(254, 2, 0)');
+            } else if (curNum.textContent === '4') {
+                curNum.setAttribute('style', 'border: 1px solid black; font-size: 20px; text-align: center; padding-top: 3px; user-select: none; color: rgb(1, 0, 127)');
+            } else if (curNum.textContent === '5') {
+                curNum.setAttribute('style', 'border: 1px solid black; font-size: 20px; text-align: center; padding-top: 3px; user-select: none; color: rgb(127, 1, 2)');
+            } else if (curNum.textContent === '6') {
+                curNum.setAttribute('style', 'border: 1px solid black; font-size: 20px; text-align: center; padding-top: 3px; user-select: none; color: rgb(0, 128, 128)');
+            } else if (curNum.textContent === '7') {
+                curNum.setAttribute('style', 'border: 1px solid black; font-size: 20px; text-align: center; padding-top: 3px; user-select: none; color: rgb(0, 0, 0)');
+            } else if (curNum.textContent === '8') {
+                curNum.setAttribute('style', 'border: 1px solid black; font-size: 20px; text-align: center; padding-top: 3px; user-select: none; color: rgb(128, 128, 128)');
+            }
         }
     }
 }
