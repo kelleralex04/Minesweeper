@@ -158,13 +158,13 @@ function loseGame() {
 
 function placeMines(mines, x, y) {
     for (let j = 0; j < mines; j++) {
-        let randX = Math.floor(Math.random() * setHeight);
-        let randY = Math.floor(Math.random() * setWidth);
-        while (((x - 1 <= randX && randX <= x + 1) && (y - 1 <= randY && randY <= y + 1)) || boardArr[randX][randY] === -1) {
-            randX = Math.floor(Math.random() * setHeight);
-            randY = Math.floor(Math.random() * setWidth);
+        let randX = Math.floor(Math.random() * setWidth);
+        let randY = Math.floor(Math.random() * setHeight);
+        while ((x - 1 <= randX && randX <= x + 1) && (y - 1 <= randY && randY <= y + 1)) {
+            randX = Math.floor(Math.random() * setWidth);
+            randY = Math.floor(Math.random() * setHeight);
         }
-        boardArr[randX][randY] = -1;
+        boardArr[randY][randX] = -1;
     }
     render();
 }
