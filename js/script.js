@@ -15,9 +15,10 @@ let colNum;
 
 /*----- cached elements  -----*/
 const board = document.getElementById('board');
-const resetBtn = document.getElementById('reset');
+const resetBtn = document.getElementById('smiley');
 /*----- event listeners -----*/
 board.addEventListener('mouseup', leftClick);
+resetBtn.addEventListener('click', init);
 
 /*----- functions -----*/
 
@@ -34,8 +35,9 @@ function init() {
         boardArr.push([]);
         for (let j = 0; j < (setWidth); j++) {
             boardArr[i].push(0);
-        }
+        };
     };
+    document.getElementById('smiley').src = 'https://i.imgur.com/aXF2BmY.png'
 };
 
 function changeBoardSize(height, width) {
@@ -166,6 +168,7 @@ function loseGame() {
         }); 
         rowNum++
     });
+    document.getElementById('smiley').src = 'https://i.imgur.com/roW87Xa.png'
 };
 
 function placeMines(mines, x, y) {
