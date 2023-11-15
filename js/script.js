@@ -67,13 +67,10 @@ function changeBoardSize(height, width) {
 };
 
 function leftClick(evt) {
-    if (evt.button !== 0) {
+    let targetId = evt.target.getAttribute('id');
+    if (evt.button !== 0 || winner || evt.srcElement.lastChild.style.visibility === 'visible') {
         return
     }
-    if (winner) {
-        return
-    };
-    let targetId = evt.target.getAttribute('id');
     if (firstClick) {
         firstClickCheck(targetId);
     }
@@ -89,7 +86,7 @@ function leftClick(evt) {
 
 function rightClick(evt) {
     evt.preventDefault();
-    if (winner) {
+    if (winner || !evt.srcElement.className) {
         return
     };
     let targetId = evt.target.getAttribute('id');
@@ -113,7 +110,6 @@ function clearCover(Id) {
     let IdNums = Id.match(/\d+/g);
     let x = parseInt(IdNums[0]);
     let y = parseInt(IdNums[1]);
-    console.log(document.getElementById(`cx${x}y${y}`).lastChild.style.visibility)
     if (boardArr[y][x] === -1) {
         loseGame();
     }
