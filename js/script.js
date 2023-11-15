@@ -1,9 +1,9 @@
 /*----- constants -----*/
 
 /*----- state variables -----*/
-let setHeight = 16;
-let setWidth = 30;
-let setMines = 99;
+let setHeight = 9;
+let setWidth = 9;
+let setMines = 10;
 let boardArr;
 let firstClick;
 let winner;
@@ -75,6 +75,7 @@ function leftClick(evt) {
     } else {
         return;
     };
+    checkWin();
 };
 
 function firstClickCheck(Id) {
@@ -212,6 +213,21 @@ function countAdj(x, y) {
         }
     } else return;
 };
+
+function checkWin() {
+    let clearedCount = 0;
+    boardArr.forEach(function(row, rowIdx) {
+        row.forEach(function(col, colIdx) {
+            if (document.getElementById(`cx${colIdx}y${rowIdx}`).style.visibility === 'hidden') {
+                clearedCount++
+            }
+        })
+    })
+    if (clearedCount === (setHeight * setWidth) - setMines) {
+        winner = 1;
+        document.getElementById('smiley').src = 'https://i.imgur.com/A8LriNS.png'
+    }
+}
 
 function render() {
     renderBoard();
