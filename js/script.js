@@ -10,6 +10,8 @@ let winner;
 let clearQueue;
 let clearedSquares;
 let mineCount;
+let rowNum;
+let colNum;
 
 /*----- cached elements  -----*/
 const board = document.getElementById('board');
@@ -34,7 +36,6 @@ function init() {
             boardArr[i].push(0);
         }
     };
-    console.log(boardArr)
 };
 
 function changeBoardSize(height, width) {
@@ -153,8 +154,19 @@ function clearCover(Id) {
 
 function loseGame() {
     winner = -1;
-    
-}
+    rowNum = 0;
+    boardArr.forEach(function(row) {
+        colNum = 0;
+        row.forEach(function(square) {
+            if (square === -1) {
+                document.getElementById(`cx${colNum}y${rowNum}`).style.visibility = 'hidden'
+                document.getElementById(`cx${colNum}y${rowNum}`).lastChild.style.visibility = 'visible'
+            }
+            colNum++
+        }); 
+        rowNum++
+    });
+};
 
 function placeMines(mines, x, y) {
     for (let j = 0; j < mines; j++) {
@@ -229,7 +241,9 @@ function renderBoard() {
                 curNum.style.color = 'rgb(0, 0, 0)';
             } else if (curNum.textContent === '8') {
                 curNum.style.color = 'rgb(128, 128, 128)';
-            };
+            } else if (curNum.textContent === '-1') {
+                curNum.style.color = 'rgba(0, 0, 0, 0)'
+            }
         };
     };
 };
