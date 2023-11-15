@@ -18,6 +18,8 @@ const board = document.getElementById('board');
 const resetBtn = document.getElementById('smiley');
 /*----- event listeners -----*/
 board.addEventListener('mouseup', leftClick);
+board.addEventListener('contextmenu', rightClick)
+document.querySelectorAll('img.flag', rightClick )
 resetBtn.addEventListener('click', init);
 
 /*----- functions -----*/
@@ -54,13 +56,20 @@ function changeBoardSize(height, width) {
             document.getElementById(`bx${j}y${i}`).lastChild.classList.add('covers');
             document.getElementById(`bx${j}y${i}`).lastChild.setAttribute('id', `cx${j}y${i}`);
             document.getElementById(`cx${j}y${i}`).appendChild(document.createElement('img'));
-            document.getElementById(`cx${j}y${i}`).lastChild.setAttribute('src', 'https://i.imgur.com/Y60Mhuq.gif');
             document.getElementById(`cx${j}y${i}`).lastChild.setAttribute('style', 'height: 32px; width: 32px; margin-top: -3px; margin-left: -3px; visibility: hidden');
+            document.getElementById(`cx${j}y${i}`).lastChild.setAttribute('src', 'https://i.imgur.com/Y60Mhuq.gif');
+            document.getElementById(`cx${j}y${i}`).appendChild(document.createElement('img'));
+            document.getElementById(`cx${j}y${i}`).lastChild.setAttribute('style', 'height: 24px; width: 24px; position: absolute; margin-top: -32px; visibility: hidden');
+            document.getElementById(`cx${j}y${i}`).lastChild.setAttribute('class', 'flag');
+            document.getElementById(`cx${j}y${i}`).lastChild.setAttribute('src', 'https://i.imgur.com/oYEkf0c.png');
         }
     };
 };
 
 function leftClick(evt) {
+    if (evt.button !== 0) {
+        return
+    }
     if (winner) {
         return
     };
@@ -78,6 +87,19 @@ function leftClick(evt) {
     checkWin();
 };
 
+function rightClick(evt) {
+    evt.preventDefault();
+    if (winner) {
+        return
+    };
+    let targetId = evt.target.getAttribute('id');
+    if (targetId) {
+        document.getElementById(targetId).lastChild.style.visibility = 'visible'
+    } else {
+        evt.srcElement.style.visibility = 'hidden'
+    }
+}
+
 function firstClickCheck(Id) {
     let IdNums = Id.match(/\d+/g);
     let x = parseInt(IdNums[0]);
@@ -91,53 +113,54 @@ function clearCover(Id) {
     let IdNums = Id.match(/\d+/g);
     let x = parseInt(IdNums[0]);
     let y = parseInt(IdNums[1]);
+    console.log(document.getElementById(`cx${x}y${y}`).lastChild.style.visibility)
     if (boardArr[y][x] === -1) {
         loseGame();
     }
     if (boardArr[y][x] === 0) {
-        if (boardArr[y-1] !== undefined && boardArr[y-1][x-1] !== undefined) {
+        if (boardArr[y-1] !== undefined && boardArr[y-1][x-1] !== undefined && document.getElementById(`cx${x-1}y${y-1}`).lastChild.style.visibility === 'hidden') {
             document.getElementById(`cx${x-1}y${y-1}`).setAttribute('style', 'visibility: hidden');
             if (boardArr[y-1][x-1] === 0 && !clearQueue.includes(`x${x-1}y${y-1}`) && !clearedSquares.includes(`x${x-1}y${y-1}`)) {
                 clearQueue.push(`x${x-1}y${y-1}`);
             }
         };
-        if (boardArr[y][x-1] !== undefined) {
+        if (boardArr[y][x-1] !== undefined && document.getElementById(`cx${x-1}y${y}`).lastChild.style.visibility === 'hidden') {
             document.getElementById(`cx${x-1}y${y}`).setAttribute('style', 'visibility: hidden');
             if (boardArr[y][x-1] === 0 && !clearQueue.includes(`x${x-1}y${y}`) && !clearedSquares.includes(`x${x-1}y${y}`)) {
                 clearQueue.push(`x${x-1}y${y}`);
             }
         };
-        if (boardArr[y+1] !== undefined && boardArr[y+1][x-1] !== undefined) {
+        if (boardArr[y+1] !== undefined && boardArr[y+1][x-1] !== undefined && document.getElementById(`cx${x-1}y${y+1}`).lastChild.style.visibility === 'hidden') {
             document.getElementById(`cx${x-1}y${y+1}`).setAttribute('style', 'visibility: hidden');
             if (boardArr[y+1][x-1] === 0 && !clearQueue.includes(`x${x-1}y${y+1}`) && !clearedSquares.includes(`x${x-1}y${y+1}`)) {
                 clearQueue.push(`x${x-1}y${y+1}`);
             }
         };
-        if (boardArr[y-1] !== undefined && boardArr[y-1][x] !== undefined) {
+        if (boardArr[y-1] !== undefined && boardArr[y-1][x] !== undefined && document.getElementById(`cx${x}y${y-1}`).lastChild.style.visibility === 'hidden') {
             document.getElementById(`cx${x}y${y-1}`).setAttribute('style', 'visibility: hidden');
             if (boardArr[y-1][x] === 0 && !clearQueue.includes(`x${x}y${y-1}`) && !clearedSquares.includes(`x${x}y${y-1}`)) {
                 clearQueue.push(`x${x}y${y-1}`);
             }
         };
-        if (boardArr[y+1] !== undefined && boardArr[y+1][x] !== undefined) {
+        if (boardArr[y+1] !== undefined && boardArr[y+1][x] !== undefined && document.getElementById(`cx${x}y${y+1}`).lastChild.style.visibility === 'hidden') {
             document.getElementById(`cx${x}y${y+1}`).setAttribute('style', 'visibility: hidden');
             if (boardArr[y+1][x] === 0 && !clearQueue.includes(`x${x}y${y+1}`) && !clearedSquares.includes(`x${x}y${y+1}`)) {
                 clearQueue.push(`x${x}y${y+1}`);
             }
         };
-        if (boardArr[y-1] !== undefined && boardArr[y-1][x+1] !== undefined) {
+        if (boardArr[y-1] !== undefined && boardArr[y-1][x+1] !== undefined && document.getElementById(`cx${x+1}y${y-1}`).lastChild.style.visibility === 'hidden') {
             document.getElementById(`cx${x+1}y${y-1}`).setAttribute('style', 'visibility: hidden');
             if (boardArr[y-1][x+1] === 0 && !clearQueue.includes(`x${x+1}y${y-1}`) && !clearedSquares.includes(`x${x+1}y${y-1}`)) {
                 clearQueue.push(`x${x+1}y${y-1}`);
             }
         };
-        if (boardArr[y][x+1] !== undefined) {
+        if (boardArr[y][x+1] !== undefined && document.getElementById(`cx${x+1}y${y}`).lastChild.style.visibility === 'hidden') {
             document.getElementById(`cx${x+1}y${y}`).setAttribute('style', 'visibility: hidden');
             if (boardArr[y][x+1] === 0 && !clearQueue.includes(`x${x+1}y${y}`) && !clearedSquares.includes(`x${x+1}y${y}`)) {
                 clearQueue.push(`x${x+1}y${y}`);
             }
         };
-        if (boardArr[y+1] !== undefined && boardArr[y+1][x+1] !== undefined) {
+        if (boardArr[y+1] !== undefined && boardArr[y+1][x+1] !== undefined && document.getElementById(`cx${x+1}y${y+1}`).lastChild.style.visibility === 'hidden') {
             document.getElementById(`cx${x+1}y${y+1}`).setAttribute('style', 'visibility: hidden');
             if (boardArr[y+1][x+1] === 0 && !clearQueue.includes(`x${x+1}y${y+1}`) && !clearedSquares.includes(`x${x+1}y${y+1}`)) {
                 clearQueue.push(`x${x+1}y${y+1}`);
@@ -163,7 +186,7 @@ function loseGame() {
         row.forEach(function(square) {
             if (square === -1) {
                 document.getElementById(`cx${colNum}y${rowNum}`).style.visibility = 'hidden'
-                document.getElementById(`cx${colNum}y${rowNum}`).lastChild.style.visibility = 'visible'
+                document.getElementById(`cx${colNum}y${rowNum}`).firstChild.style.visibility = 'visible'
             }
             colNum++
         }); 
@@ -182,7 +205,6 @@ function placeMines(mines, x, y) {
             randY = Math.floor(Math.random() * setHeight);
         }
         placedMines.push(`${randX},${randY}`);
-        console.log(placedMines)
         boardArr[randY][randX] = -1;
     }
     render();
@@ -225,13 +247,19 @@ function checkWin() {
                 clearedCount++
             }
         })
-    })
-    // console.log(clearedCount)
+    });
     if (clearedCount === (setHeight * setWidth) - setMines) {
         winner = 1;
         document.getElementById('smiley').src = 'https://i.imgur.com/A8LriNS.png'
-    }
-}
+        boardArr.forEach(function(row, rowIdx) {
+            row.forEach(function(col, colIdx) {
+                if (document.getElementById(`cx${colIdx}y${rowIdx}`).style.visibility !== 'hidden') {
+                    document.getElementById(`cx${colIdx}y${rowIdx}`).lastChild.style.visibility = 'visible'
+                };
+            });
+        });
+    };
+};
 
 function render() {
     renderBoard();
