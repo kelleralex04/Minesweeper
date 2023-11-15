@@ -173,13 +173,16 @@ function loseGame() {
 };
 
 function placeMines(mines, x, y) {
+    let placedMines = [];
     for (let j = 0; j < mines; j++) {
         let randX = Math.floor(Math.random() * setWidth);
         let randY = Math.floor(Math.random() * setHeight);
-        while ((x - 1 <= randX && randX <= x + 1) && (y - 1 <= randY && randY <= y + 1)) {
+        while (((x - 1 <= randX && randX <= x + 1) && (y - 1 <= randY && randY <= y + 1)) || placedMines.includes(`${randX},${randY}`)) {
             randX = Math.floor(Math.random() * setWidth);
             randY = Math.floor(Math.random() * setHeight);
         }
+        placedMines.push(`${randX},${randY}`);
+        console.log(placedMines)
         boardArr[randY][randX] = -1;
     }
     render();
@@ -223,6 +226,7 @@ function checkWin() {
             }
         })
     })
+    // console.log(clearedCount)
     if (clearedCount === (setHeight * setWidth) - setMines) {
         winner = 1;
         document.getElementById('smiley').src = 'https://i.imgur.com/A8LriNS.png'
