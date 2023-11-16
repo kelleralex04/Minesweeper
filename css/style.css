@@ -73,6 +73,30 @@ nav {
     width: 32px;
 }
 
+#high-score-table {
+    border: 5px solid #033540;
+    background-color: #b0d3d4;
+    margin-top: 3vmin;
+    width: 40%;
+    display: grid;
+    grid-template-columns: repeat(3, 33%);
+    justify-content: center;
+    justify-items: center;
+    padding: 10px;
+}
+
+h1 {
+    font-size: 3vmin;
+    color: #015366;
+    margin-top: 1vmin;
+    margin-bottom: 0;
+}
+
+ol {
+    width: 100%;
+    text-align: left;
+}
+
 .covers {
     border: 3px outset #033540;
     background-color: #E0F4F5;
