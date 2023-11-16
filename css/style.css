@@ -80,13 +80,3 @@ nav {
     width: 32px;
     position: absolute;
 }
-
-button {
-    margin-top: 4vh;
-    font-size: 2vmin;
-    color: #015366;
-    letter-spacing: .5vmin;
-    background-color: #A7D1D2;
-    border: 0.3vmin solid #033540;
-    padding: .5vmin 1vmin;
-}

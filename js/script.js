@@ -12,10 +12,14 @@ let clearedSquares;
 let mineCount;
 let rowNum;
 let colNum;
+let totalSeconds;
+let timerId;
 
 /*----- cached elements  -----*/
 const board = document.getElementById('board');
 const resetBtn = document.getElementById('smiley');
+const timer = document.getElementById('timer');
+
 /*----- event listeners -----*/
 board.addEventListener('mouseup', leftClick);
 board.addEventListener('contextmenu', rightClick)
@@ -29,6 +33,9 @@ init();
 function init() {
     winner = null;
     firstClick = 1;
+    clearInterval(timerId);
+    totalSeconds = 000;
+    timer.innerHTML = totalSeconds.toString().padStart(3, '0');
     changeBoardSize(setHeight, setWidth);
     boardArr = [];
     clearQueue = [];
@@ -102,8 +109,20 @@ function firstClickCheck(Id) {
     let x = parseInt(IdNums[0]);
     let y = parseInt(IdNums[1]);
     placeMines(setMines, x, y);
+    startTimer();
     firstClick = 0;
-}
+};
+
+function startTimer() {
+    timerId = setInterval(function() {
+        ++totalSeconds;
+        timer.innerHTML = totalSeconds.toString().padStart(3, '0');
+        if (totalSeconds >= 999) {
+            clearInterval(timerId);
+        };
+    }, 1000);
+};
+
 
 function clearCover(Id) {
     document.querySelector(`#${Id}`).style.visibility = 'hidden';
