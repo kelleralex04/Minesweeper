@@ -5,7 +5,7 @@ In 1990 Microsoft released Microsoft Minesweeper as part of their Windows Entert
 
 ---
 
-Click [here](link) to play!
+Click [here](https://kelleralex04.github.io/Minesweeper/) to play!
 
 To get started, just click! Left click on a square to explore that space.
 
