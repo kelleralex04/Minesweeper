@@ -79,7 +79,7 @@ function changeBoardSize(height, width) {
             let squareBG = square.firstChild;
             let squareCover = square.lastChild;
 
-            squareBG.setAttribute('style', 'border: 1px solid black; font-size: 20px; text-align: center; padding-top: 3px; user-select: none');
+            squareBG.setAttribute('style', 'border: 1px solid black; font-size: 24px; text-align: center; padding-top: 3px; user-select: none; font-weight: bold');
             squareCover.classList.add('covers');
             squareCover.setAttribute('id', `cx${j}y${i}`);
 
@@ -250,10 +250,8 @@ function loseGame() {
                 curSquare.lastChild.style.visibility = 'hidden'
                 curSquare.firstChild.src = 'https://i.imgur.com/ajkTjKn.png'
                 curSquare.firstChild.style.visibility = 'visible'
-            }
-            colNum++
+            };
         }); 
-        rowNum++
     });
     document.getElementById('smiley').src = 'https://i.imgur.com/roW87Xa.png'
 };
