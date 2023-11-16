@@ -19,12 +19,13 @@ let timerId;
 const board = document.getElementById('board');
 const resetBtn = document.getElementById('smiley');
 const timer = document.getElementById('timer');
+const sizeSelect = document.getElementById('board-size-list');
 
 /*----- event listeners -----*/
 board.addEventListener('mouseup', leftClick);
 board.addEventListener('contextmenu', rightClick)
-document.querySelectorAll('img.flag', rightClick )
 resetBtn.addEventListener('click', init);
+sizeSelect.addEventListener('change', init)
 
 /*----- functions -----*/
 
@@ -34,8 +35,21 @@ function init() {
     winner = null;
     firstClick = 1;
     clearInterval(timerId);
-    totalSeconds = 000;
+    totalSeconds = 0;
     timer.innerHTML = totalSeconds.toString().padStart(3, '0');
+    if (sizeSelect[0].selected) {
+        setHeight = 9;
+        setWidth = 9;
+        setMines = 10;
+    } else if (sizeSelect[1].selected) {
+        setHeight = 16;
+        setWidth = 16;
+        setMines = 40;
+    } else {
+        setHeight = 16;
+        setWidth = 30;
+        setMines = 99;
+    }
     changeBoardSize(setHeight, setWidth);
     boardArr = [];
     clearQueue = [];
@@ -195,11 +209,12 @@ function clearCover(Id) {
 
 function loseGame() {
     winner = -1;
+    clearInterval(timerId)
     rowNum = 0;
     boardArr.forEach(function(row) {
         colNum = 0;
         row.forEach(function(square) {
-            if (square === -1) {
+            if (square === -1 && document.getElementById(`cx${colNum}y${rowNum}`).lastChild.style.visibility === 'hidden') {
                 document.getElementById(`cx${colNum}y${rowNum}`).style.visibility = 'hidden'
                 document.getElementById(`cx${colNum}y${rowNum}`).firstChild.style.visibility = 'visible'
             }
@@ -265,7 +280,8 @@ function checkWin() {
     });
     if (clearedCount === (setHeight * setWidth) - setMines) {
         winner = 1;
-        document.getElementById('smiley').src = 'https://i.imgur.com/A8LriNS.png'
+        clearInterval(timerId);
+        document.getElementById('smiley').src = 'https://i.imgur.com/A8LriNS.png';
         boardArr.forEach(function(row, rowIdx) {
             row.forEach(function(col, colIdx) {
                 if (document.getElementById(`cx${colIdx}y${rowIdx}`).style.visibility !== 'hidden') {
