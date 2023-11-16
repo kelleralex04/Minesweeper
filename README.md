@@ -53,4 +53,5 @@ Other features that I would like to add include:
 - Chording
 - Changing color palletes
 - Custom board size and mine count
+- Mobile support/responsive design
 

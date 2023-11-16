@@ -87,7 +87,7 @@ function changeBoardSize(height, width) {
             let mineImg = squareCover.firstChild;
 
             mineImg.setAttribute('style', 'height: 32px; width: 32px; margin-top: -3px; margin-left: -3px; visibility: hidden');
-            mineImg.setAttribute('src', 'https://i.imgur.com/Y60Mhuq.gif');
+            mineImg.setAttribute('src', 'https://i.imgur.com/Q16e6xh.png');
 
             squareCover.appendChild(document.createElement('img'));
             let flagImg = squareCover.lastChild;
@@ -246,8 +246,10 @@ function loseGame() {
                 curSquare.style.visibility = 'hidden'
                 curSquare.firstChild.style.visibility = 'visible'
             } else if (square !== -1 && curSquare.lastChild.style.visibility === 'visible') {
-                // curSquare.style.visibility = 'hidden'
-                return
+                curSquare.style.visibility = 'hidden'
+                curSquare.lastChild.style.visibility = 'hidden'
+                curSquare.firstChild.src = 'https://i.imgur.com/ajkTjKn.png'
+                curSquare.firstChild.style.visibility = 'visible'
             }
             colNum++
         }); 
