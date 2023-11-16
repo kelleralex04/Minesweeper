@@ -54,9 +54,9 @@ function init() {
     boardArr = [];
     clearQueue = [];
     clearedSquares = [];
-    for (let i = 0; i < (setHeight); i++) {
+    for (let i = 0; i < (setWidth); i++) {
         boardArr.push([]);
-        for (let j = 0; j < (setWidth); j++) {
+        for (let j = 0; j < (setHeight); j++) {
             boardArr[i].push(0);
         };
     };
@@ -70,19 +70,30 @@ function changeBoardSize(height, width) {
     for (let i = 0; i < height; i++)  {
         for (let j = 0; j < width; j++)  {
             board.appendChild(document.createElement('div'));
-            board.lastChild.setAttribute('id', `bx${j}y${i}`);
-            board.lastChild.appendChild(document.createElement('div'));
-            document.getElementById(`bx${j}y${i}`).lastChild.setAttribute('style', 'border: 1px solid black; font-size: 20px; text-align: center; padding-top: 3px; user-select: none');
-            board.lastChild.appendChild(document.createElement('div'));
-            document.getElementById(`bx${j}y${i}`).lastChild.classList.add('covers');
-            document.getElementById(`bx${j}y${i}`).lastChild.setAttribute('id', `cx${j}y${i}`);
-            document.getElementById(`cx${j}y${i}`).appendChild(document.createElement('img'));
-            document.getElementById(`cx${j}y${i}`).lastChild.setAttribute('style', 'height: 32px; width: 32px; margin-top: -3px; margin-left: -3px; visibility: hidden');
-            document.getElementById(`cx${j}y${i}`).lastChild.setAttribute('src', 'https://i.imgur.com/Y60Mhuq.gif');
-            document.getElementById(`cx${j}y${i}`).appendChild(document.createElement('img'));
-            document.getElementById(`cx${j}y${i}`).lastChild.setAttribute('style', 'height: 24px; width: 24px; position: absolute; margin-top: -32px; visibility: hidden');
-            document.getElementById(`cx${j}y${i}`).lastChild.setAttribute('class', 'flag');
-            document.getElementById(`cx${j}y${i}`).lastChild.setAttribute('src', 'https://i.imgur.com/oYEkf0c.png');
+            let square = board.lastChild;
+
+            square.setAttribute('id', `bx${j}y${i}`);
+            square.appendChild(document.createElement('div'));
+            square.appendChild(document.createElement('div'));
+
+            let squareBG = square.firstChild;
+            let squareCover = square.lastChild;
+
+            squareBG.setAttribute('style', 'border: 1px solid black; font-size: 20px; text-align: center; padding-top: 3px; user-select: none');
+            squareCover.classList.add('covers');
+            squareCover.setAttribute('id', `cx${j}y${i}`);
+
+            squareCover.appendChild(document.createElement('img'));
+            let mineImg = squareCover.firstChild;
+
+            mineImg.setAttribute('style', 'height: 32px; width: 32px; margin-top: -3px; margin-left: -3px; visibility: hidden');
+            mineImg.setAttribute('src', 'https://i.imgur.com/Y60Mhuq.gif');
+
+            squareCover.appendChild(document.createElement('img'));
+            let flagImg = squareCover.lastChild;
+            flagImg.setAttribute('style', 'height: 24px; width: 24px; position: absolute; margin-top: -32px; visibility: hidden');
+            flagImg.setAttribute('class', 'flag');
+            flagImg.setAttribute('src', 'https://i.imgur.com/oYEkf0c.png');
         }
     };
 };
@@ -127,6 +138,21 @@ function firstClickCheck(Id) {
     firstClick = 0;
 };
 
+function placeMines(mines, x, y) {
+    let placedMines = [];
+    for (let i = 0; i < mines; i++) {
+        let randX = Math.floor(Math.random() * setWidth);
+        let randY = Math.floor(Math.random() * setHeight);
+        while (((x - 1 <= randX && randX <= x + 1) && (y - 1 <= randY && randY <= y + 1)) || placedMines.includes(`${randX},${randY}`)) {
+            randX = Math.floor(Math.random() * setWidth);
+            randY = Math.floor(Math.random() * setHeight);
+        }
+        placedMines.push(`${randX},${randY}`);
+        boardArr[randX][randY] = -1;
+    }
+    render();
+}
+
 function startTimer() {
     timerId = setInterval(function() {
         ++totalSeconds;
@@ -143,65 +169,68 @@ function clearCover(Id) {
     let IdNums = Id.match(/\d+/g);
     let x = parseInt(IdNums[0]);
     let y = parseInt(IdNums[1]);
-    if (boardArr[y][x] === -1) {
+    if (boardArr[x][y] === -1) {
         loseGame();
     }
-    if (boardArr[y][x] === 0) {
-        if (boardArr[y-1] !== undefined && boardArr[y-1][x-1] !== undefined && document.getElementById(`cx${x-1}y${y-1}`).lastChild.style.visibility === 'hidden') {
+    if (boardArr[x][y] === 0) {
+        if (boardArr[x-1] !== undefined && boardArr[x-1][y-1] !== undefined && document.getElementById(`cx${x-1}y${y-1}`).lastChild.style.visibility === 'hidden') {
             document.getElementById(`cx${x-1}y${y-1}`).setAttribute('style', 'visibility: hidden');
-            if (boardArr[y-1][x-1] === 0 && !clearQueue.includes(`x${x-1}y${y-1}`) && !clearedSquares.includes(`x${x-1}y${y-1}`)) {
+            if (boardArr[x-1][y-1] === 0 && !clearQueue.includes(`x${x-1}y${y-1}`) && !clearedSquares.includes(`x${x-1}y${y-1}`)) {
                 clearQueue.push(`x${x-1}y${y-1}`);
             }
         };
-        if (boardArr[y][x-1] !== undefined && document.getElementById(`cx${x-1}y${y}`).lastChild.style.visibility === 'hidden') {
+        if (boardArr[x-1] !== undefined && boardArr[x-1][y] !== undefined && document.getElementById(`cx${x-1}y${y}`).lastChild.style.visibility === 'hidden') {
             document.getElementById(`cx${x-1}y${y}`).setAttribute('style', 'visibility: hidden');
-            if (boardArr[y][x-1] === 0 && !clearQueue.includes(`x${x-1}y${y}`) && !clearedSquares.includes(`x${x-1}y${y}`)) {
+            if (boardArr[x-1][y] === 0 && !clearQueue.includes(`x${x-1}y${y}`) && !clearedSquares.includes(`x${x-1}y${y}`)) {
                 clearQueue.push(`x${x-1}y${y}`);
             }
         };
-        if (boardArr[y+1] !== undefined && boardArr[y+1][x-1] !== undefined && document.getElementById(`cx${x-1}y${y+1}`).lastChild.style.visibility === 'hidden') {
+        if (boardArr[x-1] !== undefined && boardArr[x-1][y+1] !== undefined && document.getElementById(`cx${x-1}y${y+1}`).lastChild.style.visibility === 'hidden') {
             document.getElementById(`cx${x-1}y${y+1}`).setAttribute('style', 'visibility: hidden');
-            if (boardArr[y+1][x-1] === 0 && !clearQueue.includes(`x${x-1}y${y+1}`) && !clearedSquares.includes(`x${x-1}y${y+1}`)) {
+            if (boardArr[x-1][y+1] === 0 && !clearQueue.includes(`x${x-1}y${y+1}`) && !clearedSquares.includes(`x${x-1}y${y+1}`)) {
                 clearQueue.push(`x${x-1}y${y+1}`);
             }
         };
-        if (boardArr[y-1] !== undefined && boardArr[y-1][x] !== undefined && document.getElementById(`cx${x}y${y-1}`).lastChild.style.visibility === 'hidden') {
+        if (boardArr[x][y-1] !== undefined && document.getElementById(`cx${x}y${y-1}`).lastChild.style.visibility === 'hidden') {
             document.getElementById(`cx${x}y${y-1}`).setAttribute('style', 'visibility: hidden');
-            if (boardArr[y-1][x] === 0 && !clearQueue.includes(`x${x}y${y-1}`) && !clearedSquares.includes(`x${x}y${y-1}`)) {
+            if (boardArr[x][y-1] === 0 && !clearQueue.includes(`x${x}y${y-1}`) && !clearedSquares.includes(`x${x}y${y-1}`)) {
                 clearQueue.push(`x${x}y${y-1}`);
             }
         };
-        if (boardArr[y+1] !== undefined && boardArr[y+1][x] !== undefined && document.getElementById(`cx${x}y${y+1}`).lastChild.style.visibility === 'hidden') {
+        if (boardArr[x][y+1] !== undefined && document.getElementById(`cx${x}y${y+1}`).lastChild.style.visibility === 'hidden') {
             document.getElementById(`cx${x}y${y+1}`).setAttribute('style', 'visibility: hidden');
-            if (boardArr[y+1][x] === 0 && !clearQueue.includes(`x${x}y${y+1}`) && !clearedSquares.includes(`x${x}y${y+1}`)) {
+            if (boardArr[x][y+1] === 0 && !clearQueue.includes(`x${x}y${y+1}`) && !clearedSquares.includes(`x${x}y${y+1}`)) {
                 clearQueue.push(`x${x}y${y+1}`);
             }
         };
-        if (boardArr[y-1] !== undefined && boardArr[y-1][x+1] !== undefined && document.getElementById(`cx${x+1}y${y-1}`).lastChild.style.visibility === 'hidden') {
+        if (boardArr[x+1] !== undefined && boardArr[x+1][y-1] !== undefined && document.getElementById(`cx${x+1}y${y-1}`).lastChild.style.visibility === 'hidden') {
             document.getElementById(`cx${x+1}y${y-1}`).setAttribute('style', 'visibility: hidden');
-            if (boardArr[y-1][x+1] === 0 && !clearQueue.includes(`x${x+1}y${y-1}`) && !clearedSquares.includes(`x${x+1}y${y-1}`)) {
+            if (boardArr[x+1][y-1] === 0 && !clearQueue.includes(`x${x+1}y${y-1}`) && !clearedSquares.includes(`x${x+1}y${y-1}`)) {
                 clearQueue.push(`x${x+1}y${y-1}`);
             }
         };
-        if (boardArr[y][x+1] !== undefined && document.getElementById(`cx${x+1}y${y}`).lastChild.style.visibility === 'hidden') {
+        if (boardArr[x+1] !== undefined && boardArr[x+1][y] !== undefined && document.getElementById(`cx${x+1}y${y}`).lastChild.style.visibility === 'hidden') {
             document.getElementById(`cx${x+1}y${y}`).setAttribute('style', 'visibility: hidden');
-            if (boardArr[y][x+1] === 0 && !clearQueue.includes(`x${x+1}y${y}`) && !clearedSquares.includes(`x${x+1}y${y}`)) {
+            if (boardArr[x+1][y] === 0 && !clearQueue.includes(`x${x+1}y${y}`) && !clearedSquares.includes(`x${x+1}y${y}`)) {
                 clearQueue.push(`x${x+1}y${y}`);
             }
         };
-        if (boardArr[y+1] !== undefined && boardArr[y+1][x+1] !== undefined && document.getElementById(`cx${x+1}y${y+1}`).lastChild.style.visibility === 'hidden') {
+        if (boardArr[x+1] !== undefined && boardArr[x+1][y+1] !== undefined && document.getElementById(`cx${x+1}y${y+1}`).lastChild.style.visibility === 'hidden') {
             document.getElementById(`cx${x+1}y${y+1}`).setAttribute('style', 'visibility: hidden');
-            if (boardArr[y+1][x+1] === 0 && !clearQueue.includes(`x${x+1}y${y+1}`) && !clearedSquares.includes(`x${x+1}y${y+1}`)) {
+            if (boardArr[x+1][y+1] === 0 && !clearQueue.includes(`x${x+1}y${y+1}`) && !clearedSquares.includes(`x${x+1}y${y+1}`)) {
                 clearQueue.push(`x${x+1}y${y+1}`);
             }
         };
     };
+
     if (clearQueue.includes(`x${x}y${y}`)) {
         clearQueue.splice(0, 1);
-    }
+    };
+
     if (!clearedSquares.includes(`x${x}y${y}`)) {
         clearedSquares.push(`x${x}y${y}`);
-    }
+    };
+
     clearQueue.forEach(function(i) {
         clearCover(`c${i}`)
     });
@@ -210,13 +239,12 @@ function clearCover(Id) {
 function loseGame() {
     winner = -1;
     clearInterval(timerId)
-    rowNum = 0;
-    boardArr.forEach(function(row) {
-        colNum = 0;
-        row.forEach(function(square) {
-            if (square === -1 && document.getElementById(`cx${colNum}y${rowNum}`).lastChild.style.visibility === 'hidden') {
-                document.getElementById(`cx${colNum}y${rowNum}`).style.visibility = 'hidden'
-                document.getElementById(`cx${colNum}y${rowNum}`).firstChild.style.visibility = 'visible'
+    boardArr.forEach(function(row, rowNum) {
+        row.forEach(function(square, colNum) {
+            let curSquare = document.getElementById(`cx${rowNum}y${colNum}`);
+            if (square === -1 && curSquare.lastChild.style.visibility === 'hidden') {
+                curSquare.style.visibility = 'hidden'
+                curSquare.firstChild.style.visibility = 'visible'
             }
             colNum++
         }); 
@@ -225,20 +253,65 @@ function loseGame() {
     document.getElementById('smiley').src = 'https://i.imgur.com/roW87Xa.png'
 };
 
-function placeMines(mines, x, y) {
-    let placedMines = [];
-    for (let j = 0; j < mines; j++) {
-        let randX = Math.floor(Math.random() * setWidth);
-        let randY = Math.floor(Math.random() * setHeight);
-        while (((x - 1 <= randX && randX <= x + 1) && (y - 1 <= randY && randY <= y + 1)) || placedMines.includes(`${randX},${randY}`)) {
-            randX = Math.floor(Math.random() * setWidth);
-            randY = Math.floor(Math.random() * setHeight);
+function checkWin() {
+    let clearedCount = 0;
+    boardArr.forEach(function(row, rowIdx) {
+        row.forEach(function(col, colIdx) {
+            if (document.getElementById(`cx${colIdx}y${rowIdx}`).style.visibility === 'hidden') {
+                clearedCount++
+            }
+        })
+    });
+    if (clearedCount === (setHeight * setWidth) - setMines) {
+        winner = 1;
+        clearInterval(timerId);
+        document.getElementById('smiley').src = 'https://i.imgur.com/A8LriNS.png';
+        boardArr.forEach(function(row, rowIdx) {
+            row.forEach(function(col, colIdx) {
+                if (document.getElementById(`cx${colIdx}y${rowIdx}`).style.visibility !== 'hidden') {
+                    document.getElementById(`cx${colIdx}y${rowIdx}`).lastChild.style.visibility = 'visible'
+                };
+            });
+        });
+    };
+};
+
+function render() {
+    renderBoard();
+};
+
+function renderBoard() {
+    for (let i = 0; i < setWidth; i++)  {
+        for (let j = 0; j < setHeight; j++)  {
+            countAdj(i, j);
         }
-        placedMines.push(`${randX},${randY}`);
-        boardArr[randY][randX] = -1;
     }
-    render();
-}
+    for (let i = 0; i < setWidth; i++)  {
+        for (let j = 0; j < setHeight; j++)  {
+            let curNum = document.getElementById(`bx${i}y${j}`).firstChild;
+            curNum.innerHTML = boardArr[i][j];
+            if (curNum.textContent === '1') {
+                curNum.style.color = 'rgb(1, 0, 250)';
+            } else if (curNum.textContent === '2') {
+                curNum.style.color = 'rgb(1, 127, 1)';
+            } else if (curNum.textContent === '3') {
+                curNum.style.color = 'rgb(254, 2, 0)';
+            } else if (curNum.textContent === '4') {
+                curNum.style.color = 'rgb(1, 0, 127)';
+            } else if (curNum.textContent === '5') {
+                curNum.style.color = 'rgb(127, 1, 2)';
+            } else if (curNum.textContent === '6') {
+                curNum.style.color = 'rgb(0, 128, 128)';
+            } else if (curNum.textContent === '7') {
+                curNum.style.color = 'rgb(0, 0, 0)';
+            } else if (curNum.textContent === '8') {
+                curNum.style.color = 'rgb(128, 128, 128)';
+            } else if (curNum.textContent === '-1') {
+                curNum.style.color = 'rgba(0, 0, 0, 0)'
+            }
+        };
+    };
+};
 
 function countAdj(x, y) {
     if (boardArr[x][y] === -1) {
@@ -268,71 +341,5 @@ function countAdj(x, y) {
         }
     } else return;
 };
-
-function checkWin() {
-    let clearedCount = 0;
-    boardArr.forEach(function(row, rowIdx) {
-        row.forEach(function(col, colIdx) {
-            if (document.getElementById(`cx${colIdx}y${rowIdx}`).style.visibility === 'hidden') {
-                clearedCount++
-            }
-        })
-    });
-    if (clearedCount === (setHeight * setWidth) - setMines) {
-        winner = 1;
-        clearInterval(timerId);
-        document.getElementById('smiley').src = 'https://i.imgur.com/A8LriNS.png';
-        boardArr.forEach(function(row, rowIdx) {
-            row.forEach(function(col, colIdx) {
-                if (document.getElementById(`cx${colIdx}y${rowIdx}`).style.visibility !== 'hidden') {
-                    document.getElementById(`cx${colIdx}y${rowIdx}`).lastChild.style.visibility = 'visible'
-                };
-            });
-        });
-    };
-};
-
-function render() {
-    renderBoard();
-    renderMessage();
-};
-
-function renderBoard() {
-    for (let i = 0; i < setHeight; i++)  {
-        for (let j = 0; j < setWidth; j++)  {
-            countAdj(i, j);
-        }
-    }
-    for (let i = 0; i < setHeight; i++)  {
-        for (let j = 0; j < setWidth; j++)  {
-            let curNum = document.getElementById(`bx${j}y${i}`).firstChild;
-            curNum.innerHTML = boardArr[i][j];
-            if (curNum.textContent === '1') {
-                curNum.style.color = 'rgb(1, 0, 250)';
-            } else if (curNum.textContent === '2') {
-                curNum.style.color = 'rgb(1, 127, 1)';
-            } else if (curNum.textContent === '3') {
-                curNum.style.color = 'rgb(254, 2, 0)';
-            } else if (curNum.textContent === '4') {
-                curNum.style.color = 'rgb(1, 0, 127)';
-            } else if (curNum.textContent === '5') {
-                curNum.style.color = 'rgb(127, 1, 2)';
-            } else if (curNum.textContent === '6') {
-                curNum.style.color = 'rgb(0, 128, 128)';
-            } else if (curNum.textContent === '7') {
-                curNum.style.color = 'rgb(0, 0, 0)';
-            } else if (curNum.textContent === '8') {
-                curNum.style.color = 'rgb(128, 128, 128)';
-            } else if (curNum.textContent === '-1') {
-                curNum.style.color = 'rgba(0, 0, 0, 0)'
-            }
-        };
-    };
-};
-
-function renderMessage() {
-
-};
-
 
 

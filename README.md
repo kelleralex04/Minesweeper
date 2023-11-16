@@ -41,9 +41,16 @@ Expert (30x16 board with 99 mines)
 
 ![expert board](https://i.imgur.com/pQuNian.png)
 
+See how fast you can go and climb to the top of the leaderboard
+
+![high scores](image)
+
 ---
 
 This game's code was made using JavaScript, HTML, and CSS. Images were edited using Aseprite.
 
-next steps
+Other features that I would like to add include: 
+- Chording
+- Changing color palletes
+- Custom board size and mine count
 
