@@ -245,6 +245,9 @@ function loseGame() {
             if (square === -1 && curSquare.lastChild.style.visibility === 'hidden') {
                 curSquare.style.visibility = 'hidden'
                 curSquare.firstChild.style.visibility = 'visible'
+            } else if (square !== -1 && curSquare.lastChild.style.visibility === 'visible') {
+                // curSquare.style.visibility = 'hidden'
+                return
             }
             colNum++
         }); 
