@@ -14,6 +14,12 @@ let rowNum;
 let colNum;
 let totalSeconds;
 let timerId;
+let bestTimesBeginner = Array(10).fill(999);
+let topPlayersBeginner = Array(10).fill('anonymous')
+let bestTimesIntermediate = Array(10).fill(999);
+let topPlayersIntermediate = Array(10).fill('anonymous')
+let bestTimesExpert = Array(10).fill(999);
+let topPlayersExpert = Array(10).fill('anonymous')
 
 /*----- cached elements  -----*/
 const board = document.getElementById('board');
@@ -265,7 +271,7 @@ function checkWin() {
             }
         })
     });
-    if (clearedCount === (setHeight * setWidth) - setMines) {
+    if (clearedCount === (setHeight * setWidth) - setMines && winner !== -1) {
         winner = 1;
         clearInterval(timerId);
         document.getElementById('smiley').src = 'https://i.imgur.com/A8LriNS.png';
@@ -276,6 +282,49 @@ function checkWin() {
                 };
             });
         });
+        if (sizeSelect[0].selected) {
+            bestTimesBeginner.forEach(function(time, timeIdx) {
+                if (totalSeconds < time) {
+                    let person = prompt(`Enter your name to submit your score (${totalSeconds})`);
+                    bestTimesBeginner.splice(timeIdx, 0, totalSeconds);
+                    bestTimesBeginner.pop();
+                    topPlayersBeginner.splice(timeIdx, 0, person);
+                    topPlayersBeginner.pop();
+                    for (let i = 0; i < 10; i++) {
+                        document.getElementById(`b${i}`).innerText = `${topPlayersBeginner[i]} - ${bestTimesBeginner[i]}`;
+                    }
+                    totalSeconds = 1000;
+                }
+            });
+        } else if (sizeSelect[1].selected) {
+            bestTimesIntermediate.forEach(function(time, timeIdx) {
+                if (totalSeconds < time) {
+                    let person = prompt(`Enter your name to submit your score (${totalSeconds})`);
+                    bestTimesIntermediate.splice(timeIdx, 0, totalSeconds);
+                    bestTimesIntermediate.pop();
+                    topPlayersIntermediate.splice(timeIdx, 0, person);
+                    topPlayersIntermediate.pop();
+                    for (let i = 0; i < 10; i++) {
+                        document.getElementById(`i${i}`).innerText = `${topPlayersIntermediate[i]} - ${bestTimesIntermediate[i]}`;
+                    }
+                    totalSeconds = 1000;
+                }
+            });
+        } else {
+            bestTimesExpert.forEach(function(time, timeIdx) {
+                if (totalSeconds < time) {
+                    let person = prompt(`Enter your name to submit your score (${totalSeconds})`);
+                    bestTimesExpert.splice(timeIdx, 0, totalSeconds);
+                    bestTimesExpert.pop();
+                    topPlayersExpert.splice(timeIdx, 0, person);
+                    topPlayersExpert.pop();
+                    for (let i = 0; i < 10; i++) {
+                        document.getElementById(`e${i}`).innerText = `${topPlayersExpert[i]} - ${bestTimesExpert[i]}`;
+                    }
+                    totalSeconds = 1000;
+                }
+            });
+        };
     };
 };
 
