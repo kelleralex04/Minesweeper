@@ -1,7 +1,7 @@
 
 # MINESWEEPER
 
-In 1990 Microsoft released Microsoft Minesweeper as part of their Windows Entertainment Pack for Windows 3.11. Since then, Minesweeper has been a staple of default Windows games and has spawned a wide range of variants and knockoffs. Click a square to explore while trying to avoid mines. Use the numbers to navigate your way through the dangerous minefield. Be careful; one wrong click and it's game over! 
+In 1990 Microsoft released Microsoft Minesweeper as part of their Windows Entertainment Pack for Windows 3.11. Since then, Minesweeper has been a staple of default Windows games, entertaining millions and spawning a wide range of variants and knockoffs. Click a square to explore while trying to avoid mines. Use the numbers to navigate your way through the dangerous minefield. Be careful; one wrong click and it's game over! 
 
 ---
 
