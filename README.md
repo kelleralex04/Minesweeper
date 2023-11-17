@@ -25,7 +25,7 @@ Uncover each space without clicking on a mine and Smiley will throw on some shad
 
 But uncover a mine and Smiley will be taking a trip to the hospital! 
 
-![Smiley lose](https://i.imgur.com/yVEPH7c.png)
+![Smiley lose](https://i.imgur.com/igOQdOd.png)
 
 Choose between 3 levels depending on your level of Minesweeper expertise:
 
@@ -43,8 +43,7 @@ Expert (30x16 board with 99 mines)
 
 See how fast you can go and climb to the top of the leaderboard
 
-![high scores](image)
-
+![high scores](https://i.imgur.com/We54Uxi.png)
 ---
 
 This game's code was made using JavaScript, HTML, and CSS. Images were edited using Aseprite.

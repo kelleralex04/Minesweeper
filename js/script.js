@@ -266,10 +266,10 @@ function checkWin() {
     let clearedCount = 0;
     boardArr.forEach(function(row, rowIdx) {
         row.forEach(function(col, colIdx) {
-            if (document.getElementById(`cx${colIdx}y${rowIdx}`).style.visibility === 'hidden') {
+            if (document.getElementById(`cx${rowIdx}y${colIdx}`).style.visibility === 'hidden') {
                 clearedCount++
-            }
-        })
+            };
+        });
     });
     if (clearedCount === (setHeight * setWidth) - setMines && winner !== -1) {
         winner = 1;
@@ -277,8 +277,8 @@ function checkWin() {
         document.getElementById('smiley').src = 'https://i.imgur.com/A8LriNS.png';
         boardArr.forEach(function(row, rowIdx) {
             row.forEach(function(col, colIdx) {
-                if (document.getElementById(`cx${colIdx}y${rowIdx}`).style.visibility !== 'hidden') {
-                    document.getElementById(`cx${colIdx}y${rowIdx}`).lastChild.style.visibility = 'visible'
+                if (document.getElementById(`cx${rowIdx}y${colIdx}`).style.visibility !== 'hidden') {
+                    document.getElementById(`cx${rowIdx}y${colIdx}`).lastChild.style.visibility = 'visible'
                 };
             });
         });
@@ -286,43 +286,52 @@ function checkWin() {
             bestTimesBeginner.forEach(function(time, timeIdx) {
                 if (totalSeconds < time) {
                     let person = prompt(`Enter your name to submit your score (${totalSeconds})`);
+                    if (!person) {
+                        person = 'anonymous'
+                    };
                     bestTimesBeginner.splice(timeIdx, 0, totalSeconds);
                     bestTimesBeginner.pop();
                     topPlayersBeginner.splice(timeIdx, 0, person);
                     topPlayersBeginner.pop();
                     for (let i = 0; i < 10; i++) {
                         document.getElementById(`b${i}`).innerText = `${topPlayersBeginner[i]} - ${bestTimesBeginner[i]}`;
-                    }
+                    };
                     totalSeconds = 1000;
-                }
+                };
             });
         } else if (sizeSelect[1].selected) {
             bestTimesIntermediate.forEach(function(time, timeIdx) {
                 if (totalSeconds < time) {
                     let person = prompt(`Enter your name to submit your score (${totalSeconds})`);
+                    if (!person) {
+                        person = 'anonymous'
+                    };
                     bestTimesIntermediate.splice(timeIdx, 0, totalSeconds);
                     bestTimesIntermediate.pop();
                     topPlayersIntermediate.splice(timeIdx, 0, person);
                     topPlayersIntermediate.pop();
                     for (let i = 0; i < 10; i++) {
                         document.getElementById(`i${i}`).innerText = `${topPlayersIntermediate[i]} - ${bestTimesIntermediate[i]}`;
-                    }
+                    };
                     totalSeconds = 1000;
-                }
+                };
             });
         } else {
             bestTimesExpert.forEach(function(time, timeIdx) {
                 if (totalSeconds < time) {
                     let person = prompt(`Enter your name to submit your score (${totalSeconds})`);
+                    if (!person) {
+                        person = 'anonymous'
+                    };
                     bestTimesExpert.splice(timeIdx, 0, totalSeconds);
                     bestTimesExpert.pop();
                     topPlayersExpert.splice(timeIdx, 0, person);
                     topPlayersExpert.pop();
                     for (let i = 0; i < 10; i++) {
                         document.getElementById(`e${i}`).innerText = `${topPlayersExpert[i]} - ${bestTimesExpert[i]}`;
-                    }
+                    };
                     totalSeconds = 1000;
-                }
+                };
             });
         };
     };
